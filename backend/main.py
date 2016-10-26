@@ -17,10 +17,10 @@ from flask import Flask, render_template, request, jsonify
 
 
 app = Flask(__name__)
-app.config.update({
-    'CELERY_BACKEND': 'mongodb://localhost/celery',
-    'CELERY_BROKER_URL': 'amqp://guest:guest@localhost:5672//'
-})
+#app.config.update({
+#    'CELERY_BACKEND': 'mongodb://localhost/celery',
+#    'CELERY_BROKER_URL': 'amqp://guest:guest@localhost:5672//'
+#})
 
 
 #def make_celery(app):
@@ -55,28 +55,28 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/data')
-def data():
-    click_count = int(request.args.get('cc', 0))
-    task_id = long_running_job.delay(click_count)
+#@app.route('/data')
+#def data():
+#    click_count = int(request.args.get('cc', 0))
+#    task_id = long_running_job.delay(click_count)
 
-    return jsonify({
-        'count': click_count,
-        'squared': click_count ** 2,
-        'task_id': str(task_id)
-    })
+#    return jsonify({
+#        'count': click_count,
+#        'squared': click_count ** 2,
+#        'task_id': str(task_id)
+#    })
 
 
-@app.route('/result/<task_id>')
-def result(task_id):
-    async_result = celery.AsyncResult(task_id)
+#@app.route('/result/<task_id>')
+#def result(task_id):
+#    async_result = celery.AsyncResult(task_id)
 
-    return jsonify({
-        'ready': async_result.ready(),
-        'status': async_result.status,
-        'result': async_result.result,
-        'task_id': str(async_result.task_id)
-    })
+#    return jsonify({
+#        'ready': async_result.ready(),
+#        'status': async_result.status,
+#        'result': async_result.result,
+#        'task_id': str(async_result.task_id)
+#    })
 
 
 if __name__ == '__main__':
