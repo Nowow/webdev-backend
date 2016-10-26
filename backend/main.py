@@ -12,7 +12,7 @@ except ImportError:
 
 from time import sleep
 
-from celery import Celery
+#from celery import Celery
 from flask import Flask, render_template, request, jsonify
 
 
@@ -23,31 +23,31 @@ app.config.update({
 })
 
 
-def make_celery(app):
-    celery = Celery('backend.main', backend=app.config['CELERY_BACKEND'],
-                    broker=app.config['CELERY_BROKER_URL'])
-    celery.conf.update(app.config)
-    TaskBase = celery.Task
-
-    class ContextTask(TaskBase):
-        abstract = True
-
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
-
-    celery.Task = ContextTask
-
-    return celery
-
-
-celery = make_celery(app)
+#def make_celery(app):
+#    celery = Celery('backend.main', backend=app.config['CELERY_BACKEND'],
+#                    broker=app.config['CELERY_BROKER_URL'])
+#    celery.conf.update(app.config)
+#    TaskBase = celery.Task
+#
+#    class ContextTask(TaskBase):
+#        abstract = True
+#
+#        def __call__(self, *args, **kwargs):
+#            with app.app_context():
+#                return TaskBase.__call__(self, *args, **kwargs)
+#
+#    celery.Task = ContextTask
+#
+#    return celery
 
 
-@celery.task
-def long_running_job(click_count):
-    sleep(5)
-    return click_count ** 3
+#celery = make_celery(app)
+
+
+#@celery.task
+#def long_running_job(click_count):
+#    sleep(5)
+#    return click_count ** 3
 
 
 @app.route('/')
