@@ -23,3 +23,8 @@ celery -A backend.main.celery worker -l info
 . venv/bin/activate
 python -m backend.main
 ```
+
+## MONGO credentials
+
+
+mongod --dbpath data/db --port 52345 --fork --logpath /var/log/mongodb.log
