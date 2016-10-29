@@ -5,6 +5,12 @@ from simplepam import authenticate
 
 app = Flask(__name__)
 
+@app.route('/wtf', methods=['GET', 'POST'])
+def wtf():
+    return render_template('index.html')
+	
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 #    if 'username' in session:
@@ -20,6 +26,7 @@ def index():
         return 'loginAttemptFailed'
     else:
         if 'username' in session:
+            print('NU DAA')
             return render_template('sassy.html', item = escape(session['username']))
         return render_template('index.html')
 
@@ -29,7 +36,7 @@ def index():
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('wtf'))
 
 # set the secret key.  keep this really secret:
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
