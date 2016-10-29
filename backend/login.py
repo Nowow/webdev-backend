@@ -11,12 +11,13 @@ def index():
 #        return 'Logged in as %s' % escape(session['username'])
 #    return 'You are not logged in'
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        username = request.args.get('uname')
+        password = request.args.get('pwd')
         if authenticate(str(username), str(password)):
-            session['username'] = request.form['username']
-            return render_template('sassy.html', item = escape(session['username']))
-        return 'NOOO'
+            session['username'] = request.args.get('uname')
+# deprecated            render_template('sassy.html', item = escape(session['username']))
+            return 'loginSuccess'
+        return 'loginAttemptFailed'
     else:
         if 'username' in session:
             return render_template('sassy.html', item = escape(session['username']))
